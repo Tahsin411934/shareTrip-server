@@ -19,7 +19,7 @@ connectDB();
 app.get('/', (req, res) => {
     res.send('API is running...');
 });
-
+ 
 app.post('/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
@@ -48,6 +48,17 @@ app.post('/register', async (req, res) => {
         console.error(error.message);
         res.status(500).send('Server Error');
     }
-});
+}); 
 
+
+// GET: Fetch all registered users
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find();  // Exclude password from the response
+        res.json(users);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
+});
 app.listen(port, () => console.log(`Server running on port ${port}`));
